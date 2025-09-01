@@ -1,0 +1,64 @@
+services:
+  aihr.client:
+    container_name: frontend
+    build:
+      context: ./src/client-app/
+      dockerfile: Dockerfile
+    environment:
+      WATCHPACK_POLLING: true
+      WDS_SOCKET_PORT: 80
+    ports:
+      - 80:3000
+    volumes:
+      - /app/node_modules
+      - ./src/client-app:/app
+
+  aihr.api:
+    image: ${DOCKER_REGISTRY-}aihrapi
+    container_name: backend
+    restart: always
+    build:
+      context: .
+      dockerfile: src/backend/AIHR.Api/Dockerfile
+    environment:
+      ConnectionStrings__Database: mongodb://admin:admin@mongo:27017/
+    depends_on:
+      - mongo
+  
+  mongo:
+    image: mongo
+    container_name: database
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin
+    ports:
+      - 27017:27017
+    volumes:
+      - data-volume:/data/db
+
+  mongo-express:
+    image: mongo-express
+    container_name: mongo-express
+    restart: always
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: admin
+      ME_CONFIG_MONGODB_ADMINPASSWORD: admin
+      ME_CONFIG_MONGODB_URL: mongodb://admin:admin@mongo:27017/
+    ports:
+      - 8081:8081
+    depends_on:
+      - mongo
+
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+
+volumes:
+  data-volume:
+  ollama_data:
+    
