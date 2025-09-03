@@ -4,6 +4,8 @@ using Carter;
 using Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.AI;
 using Microsoft.IdentityModel.Tokens;
 using Scalar.AspNetCore;
 using System.Text;
@@ -55,8 +57,22 @@ if (app.Environment.IsDevelopment())
     app.MapScalarApiReference();
 }
 
-app.MapGet("/ping", () => "pong").WithName("Ping");
-app.MapGet("/data", [Authorize] () => "data").WithName("Data");
+app.MapGet("/ping", () => "pong");
+app.MapGet("/data", [Authorize] () => "data");
+
+app.MapGet("/chat-client", async ([FromQuery] string prompt, IChatClient chatClient) =>
+{
+    var response = await chatClient.GetResponseAsync(prompt);
+
+    return response.Text;
+});
+
+app.MapGet("/text-embeddings", async ([FromQuery] string text, IEmbeddingGenerator<string, Embedding<float>> embeddingGenerator) =>
+{
+    var response = await embeddingGenerator.GenerateAsync(text);
+
+    return response.Vector;
+});
 
 app.MapCarter();
 

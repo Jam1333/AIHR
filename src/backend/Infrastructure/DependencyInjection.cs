@@ -10,6 +10,7 @@ using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Serializers;
 using MongoDB.Driver;
+using OllamaSharp;
 
 namespace Infrastructure;
 
@@ -24,6 +25,18 @@ public static class DependencyInjection
 
         services.AddSingleton<IHasher, Hasher>();
         services.AddSingleton<ITokenProvider, TokenProvider>();
+
+        string ollamaConnectionString = configuration.GetConnectionString("Ollama") ?? throw new ApplicationException("Ollama connection string not set");
+
+        services.AddEmbeddingGenerator(
+            new OllamaApiClient(
+                ollamaConnectionString,
+                configuration["Models:EmbeddingGenerator"] ?? throw new ApplicationException("Embedding generator model not set")));
+
+        services.AddChatClient(
+            new OllamaApiClient(
+                ollamaConnectionString,
+                configuration["Models:ChatClient"] ?? throw new ApplicationException("Chat client not set")));
 
         return services;
     }
