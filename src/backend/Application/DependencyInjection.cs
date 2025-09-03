@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using Application.Abstractions.Behavior;
+using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Application;
@@ -11,7 +12,9 @@ public static class DependencyInjection
 
         services.AddMediator(options =>
         {
-            options.Assemblies = [assembly];
+            options.ServiceLifetime = ServiceLifetime.Scoped;
+            options.GenerateTypesAsInternal = true;
+            options.PipelineBehaviors = [typeof(ValidationPipelineBehavior<,>)];
         });
 
         services.AddValidatorsFromAssembly(assembly, includeInternalTypes: true);

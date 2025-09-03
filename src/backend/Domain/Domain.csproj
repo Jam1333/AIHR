@@ -7,13 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Entities\" />
-    <Folder Include="Repositories\" />
-    <Folder Include="Errors\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="FluentResults" Version="4.0.0" />
+    <PackageReference Include="MongoDB.Bson" Version="3.4.3" />
   </ItemGroup>
 
 </Project>
