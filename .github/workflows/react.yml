@@ -1,0 +1,33 @@
+name: Build and Deploy React App
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+env:
+  REACT_APP_PATH: src/client-app
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set Up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Navigate to React App Directory
+        run: cd ${{ env.REACT_APP_PATH }}
+
+      - name: Install Dependencies
+        run: npm install
+        working-directory: ${{ env.REACT_APP_PATH }}
+
+      - name: Build React App
+        run: npm run build
+        working-directory: ${{ env.REACT_APP_PATH }}
