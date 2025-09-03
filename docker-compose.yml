@@ -22,6 +22,7 @@ services:
       dockerfile: src/backend/AIHR.Api/Dockerfile
     environment:
       ConnectionStrings__Database: mongodb://admin:admin@mongo:27017/
+      ConnectionStrings__Ollama: http://ollama:11434
     depends_on:
       - mongo
   
