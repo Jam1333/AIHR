@@ -1,9 +1,16 @@
-﻿using Application.Abstractions.Authentication;
+﻿using Application.Abstractions.AI;
+using Application.Abstractions.Authentication;
 using Application.Abstractions.Cryptography;
+using Application.Abstractions.FileSystem;
 using Domain.Abstractions.Repositories;
+using Infrastructure.Abstractions;
+using Infrastructure.AI;
 using Infrastructure.Authentication;
 using Infrastructure.Cryptography;
+using Infrastructure.Extensions;
+using Infrastructure.FileSystem;
 using Infrastructure.Repositories;
+using Infrastructure.Sanitization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MongoDB.Bson;
@@ -18,10 +25,16 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
+        services.AddSingleton<IFileReader, FileReader>();
+
         BsonSerializer.RegisterSerializer(new GuidSerializer(GuidRepresentation.Standard));
         services.AddSingleton(new MongoClient(configuration.GetConnectionString("Database")).GetDatabase("ai_hr"));
 
+        services.AddInMemoryMessageBus();
+
         services.AddScoped<IUserRepository, UserRepository>();
+
+        services.AddScoped<IVacancyRepository, VacancyRepository>();
 
         services.AddSingleton<IHasher, Hasher>();
         services.AddSingleton<ITokenProvider, TokenProvider>();
@@ -37,6 +50,10 @@ public static class DependencyInjection
             new OllamaApiClient(
                 ollamaConnectionString,
                 configuration["Models:ChatClient"] ?? throw new ApplicationException("Chat client not set")));
+
+        services.AddSingleton<ISanitizer, Sanitizer>();
+
+        services.AddSingleton<IVacancyAnalyzer, VacancyAnalyzer>();
 
         return services;
     }
