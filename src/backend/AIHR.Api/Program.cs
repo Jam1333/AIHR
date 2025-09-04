@@ -1,5 +1,6 @@
 using AIHR.Api.Middlewares;
 using Application;
+using Application.Abstractions.AI;
 using Carter;
 using Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;

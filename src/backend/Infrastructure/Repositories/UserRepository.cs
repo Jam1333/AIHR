@@ -21,14 +21,19 @@ internal sealed class UserRepository : IUserRepository
         return _usersCollection.InsertOneAsync(user);
     }
 
-    public Task DeleteAsync(User user)
+    public Task DeleteAsync(Guid id)
     {
-        return _usersCollection.FindOneAndDeleteAsync(u => u.Id == user.Id);
+        return _usersCollection.FindOneAndDeleteAsync(u => u.Id == id);
     }
 
     public Task<bool> ExistsWithEmailAsync(string email)
     {
         return _usersCollection.Find(u => u.Email == email).AnyAsync();
+    }
+
+    public Task<bool> ExistsWithIdAsync(Guid id)
+    {
+        return _usersCollection.Find(u => u.Id == id).AnyAsync();
     }
 
     public Task<List<User>> GetAllAsync()

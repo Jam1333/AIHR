@@ -1,6 +1,7 @@
 ﻿using Domain.Constants;
 using FluentResults;
 using Microsoft.AspNetCore.Mvc;
+using Domain.Extensions;
 
 namespace AIHR.Api.Extensions;
 
@@ -50,16 +51,6 @@ public static class ResultExtensions
               409 => "https://tools.ietf.org/html/rfc7231#section-6.5.8",
               _ => "https://tools.ietf.org/html/rfc7231#section-6.6.1",
           };
-    }
-
-    public static IError GetError(this ResultBase result)
-    {
-        if (result.IsSuccess || result.Errors.Count == 0)
-        {
-            throw new ApplicationException("There is no errors in result");
-        }
-
-        return result.Errors.First();
     }
 }
 

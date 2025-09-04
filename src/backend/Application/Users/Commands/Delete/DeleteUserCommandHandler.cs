@@ -11,19 +11,14 @@ internal sealed class DeleteUserCommandHandler(
 {
     public async ValueTask<Result<Unit>> Handle(DeleteUserCommand command, CancellationToken cancellationToken)
     {
-        if (command.Id != command.CurrentUserId)
-        {
-            return UserErrors.WrongUser;
-        }
+        bool exists = await userRepository.ExistsWithIdAsync(command.Id);
 
-        User? user = await userRepository.GetByIdAsync(command.Id);
-
-        if (user is null)
+        if (!exists)
         {
             return UserErrors.NotFound(command.Id);
         }
 
-        await userRepository.DeleteAsync(user);
+        await userRepository.DeleteAsync(command.Id);
 
         return Unit.Value;
     }
