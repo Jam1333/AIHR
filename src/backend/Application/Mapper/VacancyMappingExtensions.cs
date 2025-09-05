@@ -10,9 +10,11 @@ internal static class VacancyMappingExtensions
         return new VacancyResponse(
             vacancy.Id,
             vacancy.Title,
-            vacancy.Language,
+            vacancy.Language, 
+            vacancy.Text ?? "",
             vacancy.Requirements?.Select(p => (p.Key, p.Value.Select(r => r.Text).ToArray())).ToDictionary(r => r.Key, r => r.Item2) ?? [],
             vacancy.IsLoaded,
-            vacancy.UserId);
+            vacancy.UserId,
+            vacancy.CreatedOnUtc);
     }
 }

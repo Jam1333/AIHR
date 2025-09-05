@@ -7,7 +7,8 @@ using Mediator;
 namespace Application.Vacancies.Commands.Delete;
 
 internal sealed class DeleteVacancyCommandHandler(
-    IVacancyRepository vacancyRepository) : ICommandHandler<DeleteVacancyCommand, Result<Unit>>
+    IVacancyRepository vacancyRepository,
+    IAnalysisRepository analysisRepository) : ICommandHandler<DeleteVacancyCommand, Result<Unit>>
 {
     public async ValueTask<Result<Unit>> Handle(DeleteVacancyCommand command, CancellationToken cancellationToken)
     {
@@ -19,6 +20,7 @@ internal sealed class DeleteVacancyCommandHandler(
         }
 
         await vacancyRepository.DeleteAsync(command.Id);
+        await analysisRepository.DeleteByVacancyId(command.Id);
 
         return Unit.Value;
     }

@@ -17,7 +17,7 @@ internal sealed class VacancyCreatedEventHandler(
         using var scope = serviceScopeFactory.CreateScope();
 
         var vacancyRepository = scope.ServiceProvider.GetRequiredService<IVacancyRepository>();
-        var vacancyAnalyzer = scope.ServiceProvider.GetRequiredService<IVacancyAnalyzer>();
+        var vacancyAnalyzer = scope.ServiceProvider.GetRequiredService<IRecruitmentAnalyzer>();
 
         Vacancy? vacancy = await vacancyRepository.GetByIdAsync(vacancyCreatedEvent.VacancyId);
 
@@ -27,7 +27,7 @@ internal sealed class VacancyCreatedEventHandler(
         }
 
         var requirements = await vacancyAnalyzer.GetRequirementsAsync(
-            vacancyCreatedEvent.VacancyText, 
+            vacancy.Text, 
             vacancy.Language, 
             vacancyCreatedEvent.Categories);
 

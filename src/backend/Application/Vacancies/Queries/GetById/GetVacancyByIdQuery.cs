@@ -9,6 +9,8 @@ public record VacancyResponse(
     Guid Id, 
     string Title, 
     string Language, 
+    string Text, 
     Dictionary<string, string[]> Requirements, 
     bool IsLoaded, 
-    Guid UserId);
+    Guid UserId,
+    DateTime CreatedOnUtc);
