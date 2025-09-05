@@ -31,11 +31,12 @@ internal sealed class CreateVacancyCommandHandler(
         var vacancy = Vacancy.Create(
             command.Title,
             command.Language,
+            text,
             user);
 
         await vacancyRepository.CreateAsync(vacancy);
 
-        await eventBus.PublishAsync(new VacancyCreatedEvent(vacancy.Id, text, command.Categories));
+        await eventBus.PublishAsync(new VacancyCreatedEvent(vacancy.Id, command.Categories));
 
         return vacancy.Id;
     }

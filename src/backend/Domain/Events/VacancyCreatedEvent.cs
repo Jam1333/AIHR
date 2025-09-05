@@ -3,4 +3,4 @@ using Mediator;
 
 namespace Domain.Events;
 
-public record VacancyCreatedEvent(Guid VacancyId, string VacancyText, string[] Categories) : IEvent;
+public record VacancyCreatedEvent(Guid VacancyId, string[] Categories) : IEvent;

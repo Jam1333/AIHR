@@ -1,4 +1,4 @@
-﻿namespace Application.Models;
+﻿namespace Domain.ValueObjects;
 
 public record FileRequest(string FileName, Stream Stream) : IDisposable
 {

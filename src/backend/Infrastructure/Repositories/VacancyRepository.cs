@@ -41,7 +41,9 @@ public class VacancyRepository : IVacancyRepository
             filter &= builder.Where(v => v.UserId == userId);
         }
 
-        var projection = Builders<Vacancy>.Projection.Exclude(v => v.Requirements);
+        var projection = Builders<Vacancy>.Projection
+            .Exclude(v => v.Requirements)
+            .Exclude(v => v.Text);
 
         return _vacanciesCollection
             .Find(filter)

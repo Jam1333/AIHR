@@ -21,7 +21,7 @@ internal sealed class EventProcessorJob(
         {
             try
             {
-                await publisher.Publish(@event, stoppingToken);
+                await publisher.Publish(@event);
             }
             catch (Exception ex)
             {

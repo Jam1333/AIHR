@@ -1,4 +1,4 @@
-﻿using Application.Models;
+﻿using Domain.ValueObjects;
 
 namespace AIHR.Api.Extensions;
 

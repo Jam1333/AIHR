@@ -1,6 +1,6 @@
 ﻿using Application.Abstractions.FileSystem;
-using Application.Models;
 using DocumentFormat.OpenXml.Packaging;
+using Domain.ValueObjects;
 using System.Text;
 using System.Xml;
 
@@ -21,6 +21,17 @@ internal sealed class FileReader : IFileReader
             default:
                 return ReadTextFileAsync(file.Stream);
         }
+    }
+
+    public Task<FileContent[]> ReadAllTextsFromFilesRangeAsync(IEnumerable<FileRequest> files)
+    {
+        var tasks = files.Select(async f =>
+        {
+            string text = await ReadAllTextAsync(f);
+            return new FileContent(f.FileName, text);
+        });
+
+        return Task.WhenAll(tasks);
     }
 
     private static Task<string> ReadDocxFileAsync(Stream stream)

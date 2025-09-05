@@ -5,21 +5,21 @@ using Microsoft.Extensions.AI;
 
 namespace Infrastructure.AI;
 
-internal sealed class VacancyAnalyzer(
+internal sealed class RecruitmentAnalyzer(
     IChatClient chatClient,
     IEmbeddingGenerator<string, Embedding<float>> embeddingGenerator,
-    ISanitizer sanitizer) : IVacancyAnalyzer
+    ISanitizer sanitizer) : IRecruitmentAnalyzer
 {
-    public async Task<Dictionary<string, string[]>> GetRequirementsAsync(string vacancyText, string language, string[] categories)
+    public async Task<Dictionary<string, string[]>> GetRequirementsAsync(string recruitmentText, string language, string[] categories)
     {
         string prompt = $"""
-            VACANCY TEXT
+            TEXT
             '''
-            {vacancyText.Replace("'", "")}
+            {recruitmentText.Replace("'", "")}
             '''
-            END OF VACANCY TEXT
+            END OF TEXT
 
-            Extract and categorize the requirements from the following job vacancy text into the specified categories: 
+            Extract and categorize the requirements from the following vacancy/resume/interview text into the specified categories: 
             [{string.Join(',', categories.Select(c => $"'{sanitizer.Sanitize(c)}'"))}].
 
             Return a valid JSON object where each key is a category and its value is a concise array of standardized, 
@@ -34,7 +34,7 @@ internal sealed class VacancyAnalyzer(
         return response.Result;
     }
 
-    public async Task<Dictionary<string, Requirement[]>> CreateRequirementsEmbeddingsAsync(Dictionary<string, string[]> requirements)
+    public async Task<Dictionary<string, Requirement[]>> CreateRequirementsEmbeddingsAsync(IDictionary<string, string[]> requirements)
     {
         var requirementsEmbeddings = new Dictionary<string, Requirement[]>();
 

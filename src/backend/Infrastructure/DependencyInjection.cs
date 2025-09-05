@@ -35,6 +35,7 @@ public static class DependencyInjection
         services.AddScoped<IUserRepository, UserRepository>();
 
         services.AddScoped<IVacancyRepository, VacancyRepository>();
+        services.AddScoped<IAnalysisRepository, AnalysisRepository>();
 
         services.AddSingleton<IHasher, Hasher>();
         services.AddSingleton<ITokenProvider, TokenProvider>();
@@ -48,12 +49,17 @@ public static class DependencyInjection
 
         services.AddChatClient(
             new OllamaApiClient(
-                ollamaConnectionString,
+                new HttpClient 
+                {
+                    BaseAddress = new Uri(ollamaConnectionString),
+                    Timeout = TimeSpan.FromMinutes(5),
+                },
                 configuration["Models:ChatClient"] ?? throw new ApplicationException("Chat client not set")));
 
         services.AddSingleton<ISanitizer, Sanitizer>();
 
-        services.AddSingleton<IVacancyAnalyzer, VacancyAnalyzer>();
+        services.AddSingleton<IRecruitmentAnalyzer, RecruitmentAnalyzer>();
+        services.AddSingleton<ICandidateAnalyzer, CandidateAnalyzer>();
 
         return services;
     }
