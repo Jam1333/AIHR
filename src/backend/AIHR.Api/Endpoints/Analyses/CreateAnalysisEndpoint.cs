@@ -13,7 +13,7 @@ public sealed class CreateAnalysisEndpoint : ICarterModule
 {
     private record CreateAnalysisRequest(
         string Title,
-        string Weights,
+        Dictionary<string, double> Weights,
         Guid VacancyId,
         IFormFile[] Files);
 
@@ -36,7 +36,7 @@ public sealed class CreateAnalysisEndpoint : ICarterModule
 
                 var command = new CreateAnalysisCommand(
                     request.Title, 
-                    JsonSerializer.Deserialize<Dictionary<string, double>>(request.Weights) ?? [], 
+                    request.Weights, 
                     request.Files.Select(f => f.ToFileRequest()),
                     request.VacancyId, 
                     currentUserId.Value);
