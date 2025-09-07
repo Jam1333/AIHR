@@ -8,7 +8,8 @@ namespace Application.Vacancies.Commands.Delete;
 
 internal sealed class DeleteVacancyCommandHandler(
     IVacancyRepository vacancyRepository,
-    IAnalysisRepository analysisRepository) : ICommandHandler<DeleteVacancyCommand, Result<Unit>>
+    IAnalysisRepository analysisRepository,
+    IInterviewRepository interviewRepository) : ICommandHandler<DeleteVacancyCommand, Result<Unit>>
 {
     public async ValueTask<Result<Unit>> Handle(DeleteVacancyCommand command, CancellationToken cancellationToken)
     {
@@ -20,7 +21,9 @@ internal sealed class DeleteVacancyCommandHandler(
         }
 
         await vacancyRepository.DeleteAsync(command.Id);
+
         await analysisRepository.DeleteByVacancyId(command.Id);
+        await interviewRepository.DeleteByVacancyIdAsync(command.Id);
 
         return Unit.Value;
     }

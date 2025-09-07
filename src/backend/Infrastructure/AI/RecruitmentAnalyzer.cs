@@ -13,9 +13,9 @@ internal sealed class RecruitmentAnalyzer(
     public async Task<Dictionary<string, string[]>> GetRequirementsAsync(string recruitmentText, string language, string[] categories)
     {
         string prompt = $"""
-            TEXT
+            TEXT START
             '''
-            {recruitmentText.Replace("'", "")}
+            {sanitizer.Sanitize(recruitmentText)}
             '''
             END OF TEXT
 

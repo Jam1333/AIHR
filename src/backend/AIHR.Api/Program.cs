@@ -68,6 +68,25 @@ app.MapGet("/chat-client", async ([FromQuery] string prompt, IChatClient chatCli
     return response.Text;
 });
 
+app.MapGet("/chat-client/stream", ([FromQuery] string prompt, IChatClient chatClient) =>
+{
+    if (prompt == "123")
+    {
+        return Results.BadRequest(new { Message = "Bad" });
+    }
+
+    return Results.Ok(GetStreamingResponseAsync());
+
+    async IAsyncEnumerable<string> GetStreamingResponseAsync()
+    {
+        await foreach (var chatResponseUpdate in chatClient.GetStreamingResponseAsync(prompt))
+        {
+            yield return chatResponseUpdate.Text;
+        }
+    }
+});
+
+
 app.MapGet("/text-embeddings", async ([FromQuery] string text, IEmbeddingGenerator<string, Embedding<float>> embeddingGenerator) =>
 {
     var response = await embeddingGenerator.GenerateAsync(text);

@@ -35,7 +35,9 @@ public static class DependencyInjection
         services.AddScoped<IUserRepository, UserRepository>();
 
         services.AddScoped<IVacancyRepository, VacancyRepository>();
+
         services.AddScoped<IAnalysisRepository, AnalysisRepository>();
+        services.AddScoped<IInterviewRepository, InterviewRepository>();
 
         services.AddSingleton<IHasher, Hasher>();
         services.AddSingleton<ITokenProvider, TokenProvider>();
@@ -60,6 +62,9 @@ public static class DependencyInjection
 
         services.AddSingleton<IRecruitmentAnalyzer, RecruitmentAnalyzer>();
         services.AddSingleton<ICandidateAnalyzer, CandidateAnalyzer>();
+
+        services.AddSingleton<IInterviewer, Interviewer>();
+        services.AddSingleton<IInterviewSummarizer, InterviewSummarizer>();
 
         return services;
     }

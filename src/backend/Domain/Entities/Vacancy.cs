@@ -12,9 +12,7 @@ public sealed class Vacancy : Entity
     public bool IsLoaded { get; private set; }
     public Guid UserId { get; private set; }
 
-    public string[] Categories => Requirements
-        .Select(p => p.Key)
-        .ToArray();
+    public string[] Categories => Requirements.Keys.ToArray();
 
     public Vacancy(
         string title, 
