@@ -8,6 +8,8 @@ import { useAppDispatch } from "./hooks/redux";
 import { fetchCurrentUser } from "./store/actions/userActionCreators";
 import { Registration } from "./pages/Registration";
 import { Login } from "./pages/Login";
+import { HeaderComponent } from "./UI/HeaderComponent";
+import { Profile } from "./pages/Profile";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -18,15 +20,19 @@ function App() {
 
   return (
     <Router>
-      <div>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/UI" element={<UI />}/>
-          <Route path="/vacancies" element={<Vacancies />} />
-          <Route path="/test" element={<Test />} />
-          <Route path="/registration" element={<Registration />} />
-          <Route path="/login" element={<Login />} />
-        </Routes>
+      <div className="bg-neutral-950 w-[100vw] min-h-[100vh] text-white">
+        <HeaderComponent />
+        <div className="flex mt-4 items-center justify-center flex-col gap-4">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/UI" element={<UI />} />
+            <Route path="/vacancies" element={<Vacancies />} />
+            <Route path="/test" element={<Test />} />
+            <Route path="/registration" element={<Registration />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/profile" element={<Profile />} />
+          </Routes>
+        </div>
       </div>
     </Router>
   );
