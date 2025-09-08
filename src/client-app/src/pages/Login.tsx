@@ -1,108 +1,41 @@
-import React, { FormEvent, FocusEvent, ChangeEvent, useEffect, useState } from 'react';
-import {NavLink} from 'react-router-dom';
+import { Link } from "react-router-dom";
+import { useFormData } from "../hooks/forms";
 
-import FormControl from './common/FormControl/FormControl';
+interface ILognForm {
+    login: string;
+    password: string;
+}
 
-import style from './Login.module.css';
 
-const Login = () => {
-    const [login, setLogin] = useState('');
-    const [password, setPassword] = useState('');
-    const [rememberMe, setRememberMe] = useState(false);
-    const [loginDirty, setLoginDirty] = useState(false);
-    const [passwordDirty, setPasswordDirty] = useState(false);
-    const [loginError, setLoginError] = useState('Login cannot be empty');
-    const [passwordError, setPasswordError] = useState('Password cannot be empty');
-    const [formValid, setFormValid] = useState(false);
-    
-    useEffect(() => {
-        if (loginError || passwordError) {
-            setFormValid(false);
-        } else {
-            setFormValid(true);
-        }
-    }, [loginError, passwordError]);
-    
-    const loginHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        setLogin(e.target.value);
-        
-        const validation = /^[a-zA-Z0-9_-]{5,15}$/;
+export const Login = () => {
+    const loginForm: ILognForm = {
+        login: "",
+        password: ""
+    }
 
-        if (!validation.test(String(e.target.value))) {
-            if (e.target.value.length < 5 || e.target.value.length > 15) {
-                setLoginError('The login must be between 5 and 15 characters long.');
-            } else {
-                setLoginError('Invalid login format');
-            }
-        } else {
-            setLoginError('');
-        }
-    };
-
-    const passwordHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        setPassword(e.target.value);
-        
-        const validation = /^[a-zA-Z0-9_-]{8,15}$/;
-
-        if (!validation.test(String(e.target.value))) {
-            if (e.target.value.length < 8 || e.target.value.length > 15) {
-                setPasswordError('The password must be between 8 and 15 characters long.');
-            } else {
-                setPasswordError('Invalid password format');
-            }
-        } else {
-            setPasswordError('');
-        }
-    };
-
-    const rememberMeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        const newRememberMe = !rememberMe;
-        setRememberMe(newRememberMe);
-    };
-
-    const blurHandler = (e: FocusEvent<HTMLInputElement, Element>) => {
-        switch (e.target.name) {
-            case 'login':
-                setLoginDirty(true);
-                break;
-            case 'password':
-                setPasswordDirty(true);
-                break;
-        }
-    };
-
-    const submitHandler = (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        
-        if (formValid) {
-            //auth proccess
-        }
-    };
-    
+    const [formData, handleChange, setFormData] = useFormData(loginForm);
     return (
-        <div className={style.loginWindow}>
-            <div className={style.loginBlock}>
-                <h2 className={style.h2}>Log in</h2>
+        <>
+            <div className="bg-neutral-950 w-[100vw] h-[100vh] flex items-center justify-center">
+                <div className="bg-neutral-700 text-white min-w-[48vw] min-h-[42vh] flex flex-col justify-center space-y-14 items-center border-emerald-500 border-4 rounded-[2rem]">
+                    <span className='text-4xl font-bold text-emerald-200'>Вход</span>
 
-                <form className={style.loginForm} onSubmit={e => submitHandler(e)}>
-                    <input onChange={e => loginHandler(e)} value={login} onBlur={e => blurHandler(e)} name='login' placeholder='Login' />
-                    {(loginDirty && loginError) && <FormControl errorText={loginError} />}
+                    <div className="">
+                        <form className=" flex flex-col space-y-6 w-[30vw] text-[1.7rem]" action="">
 
-                    <input onChange={e => passwordHandler(e)} value={password} onBlur={e => blurHandler(e)} name='password' type='password' placeholder='Password'></input>
-                    {(passwordDirty && passwordError) && <FormControl errorText={passwordError} />}
+                            <div className="flex flex-row justify-between">Логин <input className="w-[68%] text-base bg-stone-900 rounded-full px-5 align-middle transition" type="text" name="login" value={formData.login} onChange={handleChange}/></div>
 
-                    <div className={style.checkboxContainer}>
-                        <input onChange={e => rememberMeHandler(e)} checked={rememberMe} name='rememberMe' className={style.checkbox} type='checkbox' /> Remember me
+                            <div className="flex flex-row justify-between">Пароль <input className="w-[68%] text-base bg-stone-900 rounded-full px-5 align-middle transition"  type="password" name="password" value={formData.password} onChange={handleChange}/></div>
+
+                        </form>
                     </div>
-
-                    <button className={style.button}>Confirm</button>
-                    {<FormControl errorText={'Invalid login or password'} />}
-                </form>
-
-                No account? <NavLink to='/registration'>Register</NavLink>
+                    <div className="flex flex-row items-center space-x-3">
+                        <button className="bg-emerald-600 pt-3 px-8 pb-4 rounded-3xl align-middle text-2xl transition-transform duration-300  hover:scale-110 active:bg-emerald-400 active:scale-105" onClick={() => window.location.replace("/")}>Войти</button>
+                        <Link to="/registration">Создать аккаунт?</Link>
+                    </div>
+                </div>
             </div>
-        </div>
+        </>
     )
 }
 
-export default Login;

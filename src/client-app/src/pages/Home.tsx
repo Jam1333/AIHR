@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { axiosInstance } from "../axiosInstance";
 import { HeaderComponent } from "../UI/HeaderComponent";
+import { ErrorComponent } from "../UI/ErrorComponent";
 
 export const Home = () => {
   useEffect(() => {

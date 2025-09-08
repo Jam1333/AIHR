@@ -3,8 +3,8 @@ export interface IVacancy {
   title: string;
   language: string;
   text: string;
-  requirements: Record<string, string[]>;
-  isLoaded: boolean;
+  requirements: Record<string, string[]>; //  Категория: требования[]
+  isLoaded: boolean; // false - нельзя зайти
   userId: string;
   createdOnUtc: string;
 }
