@@ -1,6 +1,6 @@
 import React, {FC} from 'react';
 
-import style from './FormControl.module.css';
+// import style from './FormControl.module.css';
 
 interface FormControlProps {
   errorText: string
@@ -8,7 +8,7 @@ interface FormControlProps {
 
 const FormControl: FC<FormControlProps> = (props) => {
     return (
-        <div className={style.formError}>
+        <div>
             {props.errorText}
         </div>
     )

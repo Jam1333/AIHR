@@ -6,6 +6,8 @@ import { Vacancies } from "./pages/Vacancies";
 import { Test } from "./pages/Test";
 import { useAppDispatch } from "./hooks/redux";
 import { fetchCurrentUser } from "./store/actions/userActionCreators";
+import { Registration } from "./pages/Registration";
+import { Login } from "./pages/Login";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -22,6 +24,8 @@ function App() {
           <Route path="/UI" element={<UI />}/>
           <Route path="/vacancies" element={<Vacancies />} />
           <Route path="/test" element={<Test />} />
+          <Route path="/registration" element={<Registration />} />
+          <Route path="/login" element={<Login />} />
         </Routes>
       </div>
     </Router>
