@@ -19,21 +19,21 @@ export const Vacancies = () => {
     "Вакансия 12",
   ];
 
-  if (!currentUser) {
-    return <RedirectToLogin />;
-  }
+  // if (!currentUser) {
+  //   return <RedirectToLogin />;
+  // }
 
   return (
     <div className="min-h-screen">
       <div className="flex justify-center items-center mb-8">
-        <button className="bg-green-800 hover:bg-green-700 text-white px-6 py-3 rounded-4xl font-medium">
+        <button className="bg-green-800 hover:bg-green-700 text-white px-6 py-3 rounded-3xl font-medium">
           Создать вакансию
         </button>
       </div>
 
       <div className="grid grid-cols-3 gap-5">
         {vacancies.map((vacancy, index) => (
-          <div key={index} className="bg-gray-800 p-5 rounded-4xl relative">
+          <div key={index} className="bg-gray-800 p-5 rounded-3xl relative">
             <div className="absolute top-3 right-3">
               <div
                 className={`w-4 h-4 rounded-full ${
