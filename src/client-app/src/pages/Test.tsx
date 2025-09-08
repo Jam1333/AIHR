@@ -1,3 +1,12 @@
+import { MicrophoneButton } from "../UI/MicrophoneButton";
+
 export const Test = () => {
-  return <div>Test</div>;
+  return (
+    <div>
+      <MicrophoneButton
+        onSpeechEnded={(transcript) => console.log(transcript)}
+        language="Russian"
+      />
+    </div>
+  );
 };

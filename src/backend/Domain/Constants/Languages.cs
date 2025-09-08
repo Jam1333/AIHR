@@ -2,5 +2,5 @@
 
 public static class Languages
 {
-    public static IReadOnlyList<string> Available { get; } = ["Russian", "English", "Kazakh", "Belarusian"];
+    public static IReadOnlyList<string> Available { get; } = ["Russian", "English", "Kazakh", "Belarussian"];
 }

@@ -1,7 +1,8 @@
 import { useState } from "react";
 
 export function useFormData<T>(
-  initialValue: T
+  initialValue: T,
+  multifile: boolean = false
 ): [
   T,
   (e: React.ChangeEvent) => void,
@@ -18,12 +19,19 @@ export function useFormData<T>(
       if (
         "files" in htmlInput &&
         htmlInput.files &&
-        htmlInput.files.length !== 0
+        htmlInput.files.length > 0
       ) {
-        setFormData((prevData) => ({
-          ...prevData,
-          [name as string]: htmlInput.files?.item(0),
-        }));
+        if (multifile) {
+          setFormData((prevData) => ({
+            ...prevData,
+            [name as string]: Array.from(htmlInput.files!),
+          }));
+        } else {
+          setFormData((prevData) => ({
+            ...prevData,
+            [name as string]: htmlInput.files?.item(0),
+          }));
+        }
       } else {
         setFormData((prevData) => ({ ...prevData, [name as string]: value }));
       }
@@ -32,4 +40,3 @@ export function useFormData<T>(
 
   return [formData, handleChange, setFormData];
 }
-
