@@ -1,128 +1,47 @@
-import React, { FormEvent, FocusEvent, ChangeEvent, useEffect, useState } from 'react';
-import {NavLink} from 'react-router-dom';
+import { Link } from "react-router-dom";
+import { useFormData } from "../hooks/forms";
 
-import FormControl from './common/FormControl/FormControl';
-
-import style from './Registration.module.css';
-
-const Registration = () => {
-    const [login, setLogin] = useState('');
-    const [password, setPassword] = useState('');
-    const [repeatPassword, setRepeatPassword] = useState('');
-    const [loginDirty, setLoginDirty] = useState(false);
-    const [passwordDirty, setPasswordDirty] = useState(false);
-    const [repeatPasswordDirty, setRepeatPasswordDirty] = useState(false);
-    const [loginError, setLoginError] = useState('Login cannot be empty');
-    const [passwordError, setPasswordError] = useState('Password cannot be empty');
-    const [repeatPasswordError, setRepeatPasswordError] = useState('Password cannot be empty');
-    const [formValid, setFormValid] = useState(false);
-
-    useEffect(() => {
-            if (loginError || passwordError || repeatPasswordError) {
-                setFormValid(false);
-            } else {
-                setFormValid(true);
-            }
-    }, [loginError, passwordError, repeatPasswordError]);
-
-    const loginHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        setLogin(e.target.value);
-        
-        const validation = /^[a-zA-Z0-9_-]{5,15}$/;
-
-        if (!validation.test(String(e.target.value))) {
-            if (e.target.value.length < 5 || e.target.value.length > 15) {
-                setLoginError('The login must be between 5 and 15 characters long.');
-            } else {
-                setLoginError('Invalid login format');
-            }
-        } else {
-            setLoginError('');
-        }
-    };
-
-    const passwordHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        setPassword(e.target.value);
-        
-        const validation = /^[a-zA-Z0-9_-]{8,15}$/;
-
-        if (!validation.test(String(e.target.value))) {
-            if (e.target.value.length < 8 || e.target.value.length > 15) {
-                setPasswordError('The password must be between 8 and 15 characters long.');
-            } else {
-                setPasswordError('Invalid password format');
-            }
-        } else {
-            setPasswordError('');
-        }
-    };
-
-    const repeatPasswordHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        setRepeatPassword(e.target.value);
-        
-        const validation = /^[a-zA-Z0-9_-]{8,15}$/;
-
-        if (!validation.test(String(e.target.value))) {
-            if (e.target.value.length < 8 || e.target.value.length > 15) {
-                setRepeatPasswordError('The password must be between 8 and 15 characters long.');
-            } else {
-                setRepeatPasswordError('Invalid password format');
-            }
-        } else {
-            if (e.target.value !== password) {
-                setRepeatPasswordError(`Passwords don't match`);
-            } else {
-                setRepeatPasswordError('');
-            }
-        }
-    };
-
-    const blurHandler = (e: FocusEvent<HTMLInputElement, Element>) => {
-        switch (e.target.name) {
-            case 'login':
-                setLoginDirty(true);
-                break;
-            case 'password':
-                setPasswordDirty(true);
-                break;
-            case 'passwordVerification':
-                setRepeatPasswordDirty(true);
-                break;
-        }
-    };
-
-    const submitHandler = (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        
-        if (formValid) {
-            //registration proccess
-        }
-    };
-
-    return (
-        <div className={style.registrationWindow}>
-            <div className={style.registrationBlock}>
-                <h2 className={style.h2}>Registration</h2>
-
-                <form className={style.registrationForm} onSubmit={e => submitHandler(e)}>
-                    <input onChange={e => loginHandler(e)} value={login} onBlur={e => blurHandler(e)} name='login' placeholder='Login' />
-                    {(loginDirty && loginError) && <FormControl errorText={loginError} />}
-
-                    <input onChange={e => passwordHandler(e)} value={password} onBlur={e => blurHandler(e)} name='password' type='password' placeholder='Password'></input>
-                    {(passwordDirty && passwordError) && <FormControl errorText={passwordError} />}
-
-                    <input onChange={e => repeatPasswordHandler(e)} value={repeatPassword} onBlur={e => blurHandler(e)} name='passwordVerification' type='password' placeholder='Repeat password'></input>
-                    {(repeatPasswordDirty && repeatPasswordError) && <FormControl errorText={repeatPasswordError} />}
-
-                    <button className={style.button}>Confirm</button>
-
-                    {<FormControl errorText='The login is busy' />}
-                </form>
-
-                Do you have an account? <NavLink to='/login'>Log in</NavLink>
-            </div>
-        </div >
-    )
+interface IForm {
+    fullname: string;
+    email: string;
+    password: string;
 }
 
-export default Registration;
+
+export const Registration = () => {
+    const regForm: IForm = {
+        fullname: "",
+        email: "",
+        password: ""
+    }
+
+    const [formData, handleChange, setFormData] = useFormData(regForm);
+
+    
+
+    return (
+        <>
+            <div className="bg-neutral-950 w-[100vw] h-[100vh] flex items-center justify-center">
+                <div className='bg-neutral-700 text-white min-w-[48vw] min-h-[45vh] flex flex-col justify-center space-y-14 items-center border-emerald-500 border-4 rounded-[2rem]'>
+                    <span className='text-4xl font-bold text-emerald-200'>Регистрация</span>
+
+                    <div className="">
+                        <form className=" flex flex-col space-y-6 w-[30vw] text-[1.7rem]" action="">
+
+                            <div className="flex flex-row justify-between">ФИО <input className="w-[68%] text-base bg-stone-900 rounded-full px-5 align-middle transition" type="text" name="fullname" value={formData.fullname} onChange={handleChange}/></div>
+
+                            <div className="flex flex-row justify-between">e-mail <input className="w-[68%] text-base bg-stone-900 rounded-full px-5 align-middle transition"  type="email" name="email" value={formData.email} onChange={handleChange}/></div>
+
+                            <div className="flex flex-row justify-between">Пароль <input className="w-[68%] text-base bg-stone-900 rounded-full px-5 align-middle transition"  type="password" name="password" value={formData.password} onChange={handleChange}/></div>
+
+                        </form>
+                    </div>
+                        <div className="flex flex-col items-center space-y-2">
+                            <button className="bg-emerald-600 pt-3 px-5 pb-4 rounded-3xl align-middle text-2xl transition-transform duration-300  hover:scale-110 active:bg-emerald-400 active:scale-105 ">Зарегистрироваться</button>
+                            <Link to="/login">Есть аккаунт?</Link>
+                        </div>
+                </div>
+            </div>
+        </>
+    )
+}
