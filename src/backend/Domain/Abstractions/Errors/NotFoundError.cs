@@ -7,6 +7,6 @@ public sealed class NotFoundError : Error
 {
     public NotFoundError(string message) : base(message) 
     {
-        Metadata.Add(ErrorConstants.StatusMetadataKey, 409);
+        Metadata.Add(ErrorConstants.StatusMetadataKey, 404);
     }
 }
