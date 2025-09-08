@@ -10,6 +10,9 @@ import { Registration } from "./pages/Registration";
 import { Login } from "./pages/Login";
 import { HeaderComponent } from "./UI/HeaderComponent";
 import { Profile } from "./pages/Profile";
+import { CreateVacancy } from "./pages/CreateVacancy";
+import { CreateAnalysis } from "./pages/CreateAnalysis";
+import { CreateInterview } from "./pages/CreateInterview";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -22,7 +25,7 @@ function App() {
     <Router>
       <div className="bg-neutral-950 w-[100vw] min-h-[100vh] text-white">
         <HeaderComponent />
-        <div className="flex mt-4 items-center justify-center flex-col gap-4">
+        <div className="flex mt-4 pb-4 items-center justify-center flex-col gap-4">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/UI" element={<UI />} />
@@ -31,6 +34,15 @@ function App() {
             <Route path="/registration" element={<Registration />} />
             <Route path="/login" element={<Login />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/vacancies/create" element={<CreateVacancy />} />
+            <Route
+              path="/vacancies/:id/analyses/create"
+              element={<CreateAnalysis />}
+            />
+            <Route
+              path="/vacancies/:id/interviews/create"
+              element={<CreateInterview />}
+            />
           </Routes>
         </div>
       </div>
