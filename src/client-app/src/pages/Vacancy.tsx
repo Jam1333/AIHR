@@ -1,3 +1,4 @@
+import { AnalyzesListComponent } from "../UI/AnalyzesListComponent"
 import { InterviewList } from "../UI/InterviewList"
 
 export const Vacancy = () => {
@@ -36,8 +37,9 @@ export const Vacancy = () => {
                     </div>
                 </div>
 
-                <div className="py-2 px-12 min-h-[28vh]">
+                <div className="flex flex-row justify-around py-12 px-12 min-h-[28vh]">
                     <InterviewList />
+                    <AnalyzesListComponent />
                 </div>
             </div>
         </>
