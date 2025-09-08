@@ -96,7 +96,7 @@ export const CreateVacancy = () => {
                 <option value="English">Английский</option>
                 <option value="Russian">Русский</option>
                 <option value="Kazakh">Казахский</option>
-                <option value="Belarusian">Белорусский</option>
+                <option value="Belarussian">Белорусский</option>
               </select>
             </div>
             <div className="flex flex-row justify-between gap-4">
