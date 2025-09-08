@@ -1,41 +1,92 @@
 import { Link } from "react-router-dom";
 import { useFormData } from "../hooks/forms";
+import { authApi } from "../api/authApi";
+import { FormEvent } from "react";
+import { useAppDispatch, useAppSelector } from "../hooks/redux";
+import { RedirectToHome } from "../UI/RedirectToHome";
+import { ErrorComponent } from "../UI/ErrorComponent";
+import { toProblemDetails } from "../utils/toProblemDetails";
+import { Spinner } from "../UI/Spinner";
+import { fetchCurrentUser } from "../store/actions/userActionCreators";
 
-interface ILognForm {
-    login: string;
-    password: string;
+interface ILoginForm {
+  login: string;
+  password: string;
 }
-
 
 export const Login = () => {
-    const loginForm: ILognForm = {
-        login: "",
-        password: ""
-    }
+  const loginForm: ILoginForm = {
+    login: "",
+    password: "",
+  };
 
-    const [formData, handleChange, setFormData] = useFormData(loginForm);
-    return (
-        <>
-            <div className="bg-neutral-950 w-[100vw] h-[100vh] flex items-center justify-center">
-                <div className="bg-neutral-700 text-white min-w-[48vw] min-h-[42vh] flex flex-col justify-center space-y-14 items-center border-emerald-500 border-4 rounded-[2rem]">
-                    <span className='text-4xl font-bold text-emerald-200'>Вход</span>
+  const [formData, handleChange] = useFormData(loginForm);
 
-                    <div className="">
-                        <form className=" flex flex-col space-y-6 w-[30vw] text-[1.7rem]" action="">
+  const { currentUser } = useAppSelector((state) => state.userReducer);
 
-                            <div className="flex flex-row justify-between">Логин <input className="w-[68%] text-base bg-stone-900 rounded-full px-5 align-middle transition" type="text" name="login" value={formData.login} onChange={handleChange}/></div>
+  const dispatch = useAppDispatch();
 
-                            <div className="flex flex-row justify-between">Пароль <input className="w-[68%] text-base bg-stone-900 rounded-full px-5 align-middle transition"  type="password" name="password" value={formData.password} onChange={handleChange}/></div>
+  const [login, { isSuccess, error, isLoading }] =
+    authApi.useLoginUserMutation();
 
-                        </form>
-                    </div>
-                    <div className="flex flex-row items-center space-x-3">
-                        <button className="bg-emerald-600 pt-3 px-8 pb-4 rounded-3xl align-middle text-2xl transition-transform duration-300  hover:scale-110 active:bg-emerald-400 active:scale-105" onClick={() => window.location.replace("/")}>Войти</button>
-                        <Link to="/registration">Создать аккаунт?</Link>
-                    </div>
-                </div>
+  const onSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+
+    await login({ email: formData.login, password: formData.password });
+
+    await dispatch(fetchCurrentUser());
+  };
+
+  if (currentUser || isSuccess) {
+    return <RedirectToHome />;
+  }
+
+  return (
+    <>
+      <div className="mt-12 p-4 bg-neutral-700 text-white w-[48vw] min-w-80 min-h-[42vh] flex flex-col justify-center space-y-14 items-center border-emerald-500 border-4 rounded-[2rem]">
+        <span className="text-4xl font-bold text-emerald-200">Вход</span>
+
+        <div>
+          <form
+            className="flex flex-col space-y-6 w-[30vw] min-w-64 text-[1.7rem]"
+            onSubmit={onSubmit}
+          >
+            <div className="flex flex-row justify-between gap-4">
+              <label>Логин</label>
+              <input
+                className="w-[68%] text-base bg-stone-900 rounded-full px-5 align-middle transition"
+                type="email"
+                name="login"
+                value={formData.login}
+                onChange={handleChange}
+                required
+              />
             </div>
-        </>
-    )
-}
 
+            <div className="flex flex-row justify-between gap-4">
+              <label>Пароль</label>
+              <input
+                className="w-[68%] text-base bg-stone-900 rounded-full px-5 align-middle transition"
+                type="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div className="p-5 flex flex-row items-center self-center space-x-3">
+              <input
+                className="cursor-pointer text-center bg-emerald-600 pt-3 px-8 pb-4 rounded-3xl align-middle text-2xl transition-transform duration-300  hover:scale-110 active:bg-emerald-400 active:scale-105"
+                value={"Войти"}
+                type="submit"
+              />
+              <Link to="/registration">Создать аккаунт?</Link>
+            </div>
+          </form>
+        </div>
+      </div>
+      {error && <ErrorComponent problemDetails={toProblemDetails(error)} />}
+      {isLoading && <Spinner />}
+    </>
+  );
+};
