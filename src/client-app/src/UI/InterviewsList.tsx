@@ -38,12 +38,14 @@ export const InterviewsList = ({ vacancyId }: InterviewListProps) => {
           </Link>
         </div>
 
-        {interviews?.map((interview, index) => (
-          <InterviewCard key={index} interview={interview} />
-        ))}
-        {interviews?.length === 0 && (
-          <p className="text-center">Пока нет собеседований...</p>
-        )}
+        <div className="flex flex-col-reverse gap-2">
+          {interviews?.map((interview, index) => (
+            <InterviewCard key={index} interview={interview} />
+          ))}
+          {interviews?.length === 0 && (
+            <p className="text-center">Пока нет собеседований...</p>
+          )}
+        </div>
       </div>
     </>
   );

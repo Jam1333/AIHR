@@ -37,7 +37,7 @@ export const Vacancy = () => {
   return (
     <>
       <div className="bg-gray-700 pt-6 px-10 rounded-[2vw] w-[80vw] min-w-[350px] min-h-[80vh]">
-        <div className="text-4xl  mb-3">Вакансия "{vacancy.title}"</div>
+        <div className="text-center text-4xl  mb-3">Вакансия "{vacancy.title}"</div>
         <div className="h-1 bg-white rounded-full"></div>
 
         <div className="mt-4 mx-4 min-h-[22vh] flex flex-col space-y-2">

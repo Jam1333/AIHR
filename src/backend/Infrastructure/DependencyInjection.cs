@@ -54,7 +54,7 @@ public static class DependencyInjection
                 new HttpClient 
                 {
                     BaseAddress = new Uri(ollamaConnectionString),
-                    Timeout = TimeSpan.FromMinutes(5),
+                    Timeout = TimeSpan.FromMinutes(10),
                 },
                 configuration["Models:ChatClient"] ?? throw new ApplicationException("Chat client not set")));
 

@@ -14,7 +14,7 @@ public record InterviewResponse(
     string Language,
     Dictionary<string, double> Weights,
     int MaxMessagesCount,
-    List<InterviewMessage> InterviewMessages,
+    IEnumerable<InterviewMessage> InterviewMessages,
     ContactInformation? ContactInformation,
     InterviewResult? InterviewResult,
     string? Conclusion,

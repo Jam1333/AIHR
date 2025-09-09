@@ -10,6 +10,7 @@ internal static class AnalysisMappingExtensions
         return new AnalysisResponse(
             analysis.Id,
             analysis.Title,
+            analysis.Weights,
             analysis.ResumeResults ?? [],
             analysis.IsLoaded,
             analysis.VacancyId,

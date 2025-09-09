@@ -25,6 +25,8 @@ internal sealed class ProvideInterviewContactInformationCommandHandler(
 
         interview.UpdateContactInformation(contactInformation);
 
+        await interviewRepository.UpdateAsync(interview);
+
         return Unit.Value;
     }
 }

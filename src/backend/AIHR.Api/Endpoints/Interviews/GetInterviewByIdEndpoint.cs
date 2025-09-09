@@ -11,7 +11,7 @@ public sealed class GetInterviewByIdEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("/interviews/{id:guid}", [Authorize] async ([FromRoute] Guid id, IMediator mediator) =>
+        app.MapGet("/interviews/{id:guid}", async ([FromRoute] Guid id, IMediator mediator) =>
         {
             var result = await mediator.Send(new GetInterviewByIdQuery(id));
 

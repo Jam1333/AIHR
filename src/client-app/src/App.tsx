@@ -15,6 +15,9 @@ import { CreateAnalysis } from "./pages/CreateAnalysis";
 import { CreateInterview } from "./pages/CreateInterview";
 import { Vacancy } from "./pages/Vacancy";
 import { Chat } from "./pages/Chat";
+import { Analysis } from "./pages/Analysis";
+import { UploadContactInformation } from "./pages/UploadContactInformation";
+import { InterviewResult } from "./pages/InterviewResult";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -46,7 +49,16 @@ function App() {
               path="/vacancies/:id/interviews/create"
               element={<CreateInterview />}
             />
-            <Route path="/chat" element={<Chat />}/>
+            <Route path="/analyses/:id" element={<Analysis />} />
+            <Route path="/interviews/:id" element={<Chat />} />
+            <Route
+              path="/interviews/:id/contact-information"
+              element={<UploadContactInformation />}
+            />
+            <Route
+              path="/interviews/:id/result"
+              element={<InterviewResult />}
+            />
           </Routes>
         </div>
       </div>
