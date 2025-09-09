@@ -1,48 +1,54 @@
+import { Link } from "react-router-dom";
+import { vacancyApi } from "../api/vacancyApi";
 import { useAppSelector } from "../hooks/redux";
+import { ErrorComponent } from "../UI/ErrorComponent";
 import { RedirectToLogin } from "../UI/RedirectToLogin";
+import { Spinner } from "../UI/Spinner";
+import { VacancyCard } from "../UI/VacancyCard";
+import { toProblemDetails } from "../utils/toProblemDetails";
 
 export const Vacancies = () => {
-  const { currentUser } = useAppSelector((state) => state.userReducer);
+  const {
+    currentUser,
+    isLoading: isCurrentUserLoading,
+    error: fetchCurrentUserError,
+  } = useAppSelector((state) => state.userReducer);
 
-  const vacancies = [
-    "Вакансия 1",
-    "Вакансия 5",
-    "Вакансия 9",
-    "Вакансия 2",
-    "Вакансия 6",
-    "Вакансия 10",
-    "Вакансия 3",
-    "Вакансия 7",
-    "Вакансия 11",
-    "Вакансия 4",
-    "Вакансия 8",
-    "Вакансия 12",
-  ];
+  const {
+    data: vacancies,
+    isLoading: isVacanciesLoading,
+    error: fetchVacanciesError,
+  } = vacancyApi.useFetchAllVacanciesQuery({
+    userId: currentUser?.id ?? "",
+  });
 
-  // if (!currentUser) {
-  //   return <RedirectToLogin />;
-  // }
+  if (fetchVacanciesError) {
+    return (
+      <ErrorComponent problemDetails={toProblemDetails(fetchVacanciesError)} />
+    );
+  }
+
+  if (isCurrentUserLoading || isVacanciesLoading || !vacancies) {
+    return <Spinner />;
+  }
+
+  if (fetchCurrentUserError) {
+    return <RedirectToLogin />;
+  }
 
   return (
     <div className="min-h-screen">
       <div className="flex justify-center items-center mb-8">
-        <button className="bg-green-800 hover:bg-green-700 text-white px-6 py-3 rounded-3xl font-medium">
-          Создать вакансию
-        </button>
+        <Link to={`/vacancies/create`}>
+          <button className="bg-green-800 hover:bg-green-700 text-white px-6 py-3 rounded-3xl font-medium">
+            Создать вакансию
+          </button>
+        </Link>
       </div>
 
       <div className="grid grid-cols-3 gap-5">
         {vacancies.map((vacancy, index) => (
-          <div key={index} className="bg-gray-800 p-5 rounded-3xl relative">
-            <div className="absolute top-3 right-3">
-              <div
-                className={`w-4 h-4 rounded-full ${
-                  index % 2 === 0 ? "bg-green-800" : "bg-red-800"
-                }`}
-              ></div>
-            </div>
-            <h3 className="text-white font-medium">{vacancy}</h3>
-          </div>
+          <VacancyCard key={index} vacancy={vacancy} />
         ))}
       </div>
     </div>

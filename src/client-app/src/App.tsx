@@ -13,6 +13,7 @@ import { Profile } from "./pages/Profile";
 import { CreateVacancy } from "./pages/CreateVacancy";
 import { CreateAnalysis } from "./pages/CreateAnalysis";
 import { CreateInterview } from "./pages/CreateInterview";
+import { Vacancy } from "./pages/Vacancy";
 import { Chat } from "./pages/Chat";
 
 function App() {
@@ -30,11 +31,12 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/UI" element={<UI />} />
-            <Route path="/vacancies" element={<Vacancies />} />
             <Route path="/test" element={<Test />} />
             <Route path="/registration" element={<Registration />} />
             <Route path="/login" element={<Login />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/vacancies" element={<Vacancies />} />
+            <Route path="/vacancies/:id" element={<Vacancy />} />
             <Route path="/vacancies/create" element={<CreateVacancy />} />
             <Route
               path="/vacancies/:id/analyses/create"
