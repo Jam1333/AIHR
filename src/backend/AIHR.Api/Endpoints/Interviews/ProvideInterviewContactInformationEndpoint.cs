@@ -10,7 +10,7 @@ public sealed class ProvideInterviewContactInformationEndpoint : ICarterModule
 {
     private record ProvideInterviewContactInformationRequest(
         string Email,
-        string PhoneNumer);
+        string PhoneNumber);
 
     public void AddRoutes(IEndpointRouteBuilder app)
     {
@@ -24,7 +24,7 @@ public sealed class ProvideInterviewContactInformationEndpoint : ICarterModule
                 var command = new ProvideInterviewContactInformationCommand(
                     id,
                     request.Email,
-                    request.PhoneNumer);
+                    request.PhoneNumber);
 
                 var result = await mediator.Send(command);
 

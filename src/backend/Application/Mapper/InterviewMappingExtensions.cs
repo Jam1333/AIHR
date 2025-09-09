@@ -14,7 +14,8 @@ internal static class InterviewMappingExtensions
             interview.Language,
             interview.Weights,
             interview.MaxMessagesCount,
-            interview.InterviewMessages ?? [],
+            interview.InterviewMessages is not null ? 
+            (interview.InterviewMessages.Count > 1 ? interview.InterviewMessages.Skip(1) : interview.InterviewMessages) : [],
             interview.ContactInformation,
             interview.InterviewResult,
             interview.Conclusion,

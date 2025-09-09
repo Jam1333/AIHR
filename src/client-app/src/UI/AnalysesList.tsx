@@ -35,13 +35,14 @@ export const AnalysesList = ({ vacancyId }: AnalyzesListProps) => {
             </button>
           </Link>
         </div>
-
-        {analyses?.map((a, i) => (
-          <AnalysisCard key={i} analysis={a} />
-        ))}
-        {analyses?.length === 0 && (
-          <p className="text-center">Пока нет анализов...</p>
-        )}
+        <div className="flex flex-col-reverse gap-2">
+          {analyses?.map((a, i) => (
+            <AnalysisCard key={i} analysis={a} />
+          ))}
+          {analyses?.length === 0 && (
+            <p className="text-center">Пока нет анализов...</p>
+          )}
+        </div>
       </div>
     </>
   );

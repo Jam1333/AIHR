@@ -1,6 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
 import { useAppSelector } from "../hooks/redux";
-import { LogoutButton } from "./LogoutButton";
 
 export const HeaderComponent = () => {
   const { currentUser } = useAppSelector((state) => state.userReducer);
@@ -15,7 +14,9 @@ export const HeaderComponent = () => {
   return (
     <header className="w-[100vw] flex md:flex-row flex-col justify-around items-center">
       <div className="w-40 m-3 flex justify-center items-center text-center">
-        Logo
+        <Link to="/">
+          <img src="/logo.png" alt="Logo" />
+        </Link>
       </div>
 
       <div className="w-[28vw] m-6 min-w-80 h-16 flex justify-center rounded-full bg-gray-700">

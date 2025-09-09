@@ -22,18 +22,18 @@ export const Vacancies = () => {
     userId: currentUser?.id ?? "",
   });
 
-  if (fetchVacanciesError) {
-    return (
-      <ErrorComponent problemDetails={toProblemDetails(fetchVacanciesError)} />
-    );
+  if (fetchCurrentUserError) {
+    return <RedirectToLogin />;
   }
 
   if (isCurrentUserLoading || isVacanciesLoading || !vacancies) {
     return <Spinner />;
   }
 
-  if (fetchCurrentUserError) {
-    return <RedirectToLogin />;
+  if (fetchVacanciesError) {
+    return (
+      <ErrorComponent problemDetails={toProblemDetails(fetchVacanciesError)} />
+    );
   }
 
   return (
@@ -51,6 +51,9 @@ export const Vacancies = () => {
           <VacancyCard key={index} vacancy={vacancy} />
         ))}
       </div>
+      {vacancies.length === 0 && (
+        <p className="text-center mt-2">Вакансий пока нет...</p>
+      )}
     </div>
   );
 };
