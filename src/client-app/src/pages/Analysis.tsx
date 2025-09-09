@@ -5,8 +5,10 @@ import { ErrorComponent } from "../UI/ErrorComponent";
 import { toProblemDetails } from "../utils/toProblemDetails";
 import { UnauthorizedMessage } from "../UI/UnauthorizedMessage";
 import { Spinner } from "../UI/Spinner";
-import { RedirectToHome } from "../UI/RedirectToHome";
 import { numberToPercentage } from "../utils/numberToPercentage";
+import { useState } from "react";
+import { IResumeResult } from "../types/resumeResult";
+import { ResumeResultModal } from "../UI/ResumeResultModal";
 
 export const Analysis = () => {
   const { id } = useParams();
@@ -20,6 +22,12 @@ export const Analysis = () => {
   const { isLoading: isUserLoading, error: fetchUserError } = useAppSelector(
     (state) => state.userReducer
   );
+
+  const [resumeResult, setResumeResult] = useState<IResumeResult | null>(null);
+
+  const closeResumeResult = () => {
+    setResumeResult(null);
+  };
 
   if (isAnalysisLoading || isUserLoading) {
     <Spinner />;
@@ -40,9 +48,9 @@ export const Analysis = () => {
   }
 
   return (
-    <>
+    <div className="flex flex-col justify-center items-center">
       <div className="bg-gray-700 pt-6 px-10 rounded-[2vw] w-[80vw] min-h-[80vh] min-w-[350px]">
-        <div className="text-center text-4xl  mb-3">
+        <div className="text-center text-4xl mb-3">
           Анализ "{analysis.title}"
         </div>
         <div className="h-1 bg-white rounded-full"></div>
@@ -73,9 +81,14 @@ export const Analysis = () => {
               </thead>
               <tbody className="">
                 {analysis.resumeResults.map((r, i) => (
-                  <tr>
+                  <tr key={i}>
                     <td>
-                      <span className="md:p-4">{r.title}</span>
+                      <span
+                        className="md:p-4 cursor-pointer hover:underline"
+                        onClick={() => setResumeResult(r)}
+                      >
+                        {r.title}
+                      </span>
                     </td>
                     <td className="border-l-2 border-l-white">
                       <span className="md:p-4">
@@ -91,6 +104,12 @@ export const Analysis = () => {
           </div>
         </div>
       </div>
-    </>
+      {resumeResult && (
+        <ResumeResultModal
+          resumeResult={resumeResult}
+          onClose={() => console.log()}
+        />
+      )}
+    </div>
   );
 };
