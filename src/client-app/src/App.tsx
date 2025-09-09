@@ -14,6 +14,7 @@ import { CreateVacancy } from "./pages/CreateVacancy";
 import { CreateAnalysis } from "./pages/CreateAnalysis";
 import { CreateInterview } from "./pages/CreateInterview";
 import { Vacancy } from "./pages/Vacancy";
+import { Chat } from "./pages/Chat";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -45,6 +46,7 @@ function App() {
               path="/vacancies/:id/interviews/create"
               element={<CreateInterview />}
             />
+            <Route path="/chat" element={<Chat />}/>
           </Routes>
         </div>
       </div>
