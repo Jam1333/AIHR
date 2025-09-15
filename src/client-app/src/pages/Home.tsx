@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { axiosInstance } from "../axiosInstance";
-import { HeaderComponent } from "../UI/HeaderComponent";
 
 export const Home = () => {
   useEffect(() => {

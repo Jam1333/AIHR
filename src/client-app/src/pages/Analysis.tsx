@@ -25,10 +25,6 @@ export const Analysis = () => {
 
   const [resumeResult, setResumeResult] = useState<IResumeResult | null>(null);
 
-  const closeResumeResult = () => {
-    setResumeResult(null);
-  };
-
   if (isAnalysisLoading || isUserLoading) {
     <Spinner />;
   }

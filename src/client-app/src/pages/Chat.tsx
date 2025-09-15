@@ -51,7 +51,7 @@ export const Chat = () => {
     }
 
     start();
-  }, [interview]);
+  }, [interview, start]);
 
   const toggleAudio = () => {
     if (speechStatus === "started") {

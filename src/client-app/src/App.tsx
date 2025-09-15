@@ -1,9 +1,7 @@
 import React, { useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Home } from "./pages/Home";
-import { UI } from "./pages/UI";
 import { Vacancies } from "./pages/Vacancies";
-import { Test } from "./pages/Test";
 import { useAppDispatch } from "./hooks/redux";
 import { fetchCurrentUser } from "./store/actions/userActionCreators";
 import { Registration } from "./pages/Registration";
@@ -24,7 +22,7 @@ function App() {
 
   useEffect(() => {
     dispatch(fetchCurrentUser());
-  }, []);
+  }, [dispatch]);
 
   return (
     <Router>
@@ -33,8 +31,6 @@ function App() {
         <div className="flex mt-4 pb-4 items-center justify-center flex-col gap-4">
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/UI" element={<UI />} />
-            <Route path="/test" element={<Test />} />
             <Route path="/registration" element={<Registration />} />
             <Route path="/login" element={<Login />} />
             <Route path="/profile" element={<Profile />} />

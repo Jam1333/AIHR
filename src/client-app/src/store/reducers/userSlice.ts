@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IUser } from "../../types/user";
 import { IProblemDetails } from "../../types/problemDetails";
-import { stat } from "fs";
 
 interface UserState {
   currentUser: IUser | null;

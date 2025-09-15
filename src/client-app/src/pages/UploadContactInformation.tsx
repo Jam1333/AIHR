@@ -56,7 +56,7 @@ export const UploadContactInformation = () => {
     }
 
     setFormData(interview.contactInformation);
-  }, [interview]);
+  }, [interview, setFormData]);
 
   useEffect(() => {
     if (!isSuccess) {
@@ -64,7 +64,7 @@ export const UploadContactInformation = () => {
     }
 
     navigate(`/interviews/${id}`);
-  }, [isSuccess]);
+  }, [isSuccess, id, navigate]);
 
   if (fetchInterviewError) {
     return (

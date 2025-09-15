@@ -2,12 +2,11 @@ import { Link } from "react-router-dom";
 import { useFormData } from "../hooks/forms";
 import { authApi } from "../api/authApi";
 import { FormEvent } from "react";
-import { useAppDispatch, useAppSelector } from "../hooks/redux";
+import { useAppSelector } from "../hooks/redux";
 import { RedirectToHome } from "../UI/RedirectToHome";
 import { ErrorComponent } from "../UI/ErrorComponent";
 import { toProblemDetails } from "../utils/toProblemDetails";
 import { Spinner } from "../UI/Spinner";
-import { fetchCurrentUser } from "../store/actions/userActionCreators";
 import { RedirectToLogin } from "../UI/RedirectToLogin";
 
 interface IRegistrationForm {
